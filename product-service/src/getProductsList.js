@@ -1,11 +1,12 @@
+const productsList = require('../data/productsList.json');
+
 module.exports = async event => {
   return {
     statusCode: 200,
-    body: JSON.stringify({
-      id: '',
-      title: 'Lost & Found',
-      artist: 'Jorja Smith',
-      price: '2300',   
-    }),
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      "Access-Control-Allow-Credentials" : true,
+    },
+    body: JSON.stringify(productsList),
   };
 };

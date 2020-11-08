@@ -1,0 +1,56 @@
+[
+  {
+    "id": 1,
+    "title": "Lost & Found",
+    "artist": "Jorja Smith",
+    "description": "some description",
+    "price": 2300,
+    "coverUrl": "https://miro.medium.com/max/807/0*p4iC9z-_fz8Fl3gc.jpg",
+    "count": 4
+  },
+  {
+    "id": 2,
+    "title": "Hands Rest",
+    "artist": "Aparde",
+    "description": "some description",
+    "price": 2100,
+    "coverUrl": "https://i1.sndcdn.com/artworks-000522208638-xu3x9f-t500x500.jpg",
+    "count": 4
+  },
+  {
+    "id": 3,
+    "title": "MAGDALENE",
+    "artist": "FKA Twigs",
+    "description": "some description",
+    "price": 2500,
+    "coverUrl": "https://musicviking.ru/wp-content/uploads/2019/12/fka-twigs-magdalene-album-cover.jpg",
+    "count": 4
+  },
+  {
+    "id": 4,
+    "title": "Mutant",
+    "artist": "Arka",
+    "description": "some description",
+    "price": 2300,
+    "coverUrl": "https://media.pitchfork.com/photos/5929b1f09d034d5c69bf4ac3/1:1/w_600/39d465c8.jpg",
+    "count": 4
+  },
+  {
+    "id": 5,
+    "title": "Dancehall",
+    "artist": "The Blaze",
+    "description": "some description",
+    "price": 2700,
+    "coverUrl": "https://media.pitchfork.com/photos/5b86fe31a9c65c4d906eb87b/1:1/w_600/theblaze.jpg",
+    "count": 4
+  },
+  {
+    "id": 6,
+    "title": "Not to Dissapear",
+    "artist": "Daughter",
+    "description": "some description",
+    "price": 2900,
+    "coverUrl": "https://vinyla.com/files/products/daughter-not-to-dissapear.800x800.png?318e9e196be91ac406e554aa2f8a31f2",
+    "count": 4
+  }
+]
