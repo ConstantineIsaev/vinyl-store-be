@@ -25,3 +25,4 @@ functions:
             parameters:
               paths:
                 productId: true
+                
