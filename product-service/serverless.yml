@@ -1,6 +1,9 @@
 service: product-service
 frameworkVersion: '2'
 
+plugins:
+  - serverless-dotenv-plugin
+
 provider:
   name: aws
   runtime: nodejs12.x
@@ -8,6 +11,9 @@ provider:
   region: us-east-1
 
 functions:
+  initDb:
+    handler: handler.initDb
+
   getProductsList:
     handler: handler.getProductsList
     events:
@@ -25,4 +31,12 @@ functions:
             parameters:
               paths:
                 productId: true
-                
+
+  postNewProduct:
+    handler: handler.createNewProduct
+    events:
+      - http:
+          path: products
+          method: post 
+          cors: true
+
