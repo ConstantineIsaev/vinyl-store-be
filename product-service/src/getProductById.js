@@ -1,15 +1,14 @@
+const getProductbyId = require('../db/getProductById');
+
 module.exports = async event => {
+  const { rows: product } = await getProductbyId(event.pathParameters.productId);
+
   return {
     statusCode: 200,
     headers: {
       'Access-Control-Allow-Origin': '*',
       "Access-Control-Allow-Credentials" : true,
     },
-    body: JSON.stringify({
-      album: 'Recto Verso',
-      artist: 'Paradis',
-      price: '1900',
-      id: `${event.pathParameters.productId}`
-    }),
+    body: JSON.stringify(product),
   };
 };
