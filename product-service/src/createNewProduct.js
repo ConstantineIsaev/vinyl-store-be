@@ -12,7 +12,6 @@ module.exports = async event => {
     statusCode: 201,
     headers: {
       'Access-Control-Allow-Origin': '*',
-      "Access-Control-Allow-Credentials" : true,
     },
   };
 };
