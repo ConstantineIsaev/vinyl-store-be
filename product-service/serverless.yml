@@ -15,10 +15,17 @@ provider:
       Action: "sqs:*"
       Resource: 
         - Fn::GetAtt: [ SQSQueue, Arn ]
+    - Effect: "Allow"
+      Action: "sns:*"
+      Resource: 
+        Ref: SNSTopic
     
   environment:
+    AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1'
     SQS_URL:
       Ref: SQSQueue
+    SNS_TOPIC:
+      Ref: SNSTopic
 
 resources:
   Resources:
@@ -26,6 +33,17 @@ resources:
       Type: AWS::SQS::Queue
       Properties:
         QueueName: catalog-products-queue
+    SNSTopic:
+      Type: AWS::SNS::Topic
+      Properties:
+        TopicName: catalog-products-sns-topic
+    SNSSubscription:
+      Type: AWS::SNS::Subscription
+      Properties:
+        Endpoint: matthew.risedale@gmail.com
+        Protocol: email
+        TopicArn:
+          Ref: SNSTopic
   Outputs:
     SQSQueueUrl:
       Value:
