@@ -4,11 +4,13 @@ const dbOptions = require('./dbOptions');
 module.exports = async (title, artist, description, price, coverurl, count) => {
   const client = new Client(dbOptions);
   await client.connect();
+  console.log(client)
   try {
     const insertProduct = await client.query(`
       INSERT INTO products(title, artist, description, price, coverurl) VALUES ($1, $2, $3, $4, $5) RETURNING id
     `, [title, artist, description, price, coverurl]);
 
+    console.log(insertProduct);
     const productId = insertProduct.rows[0].id;
 
     const insertStocks = await client.query(`

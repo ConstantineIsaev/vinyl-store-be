@@ -19,23 +19,10 @@ provider:
         - "arn:aws:s3:::lesson5-bucket/*"
     - Effect: "Allow"
       Action: "sqs:*"
-      Resource: 
-        - Fn::GetAtt: [ SQSQueue, Arn ]
+      Resource: ${cf:product-service-${self:provider.stage}.SQSQueueArn}
 
   environment:
-    SQS_URL:
-      Ref: SQSQueue
-
-resources:
-  Resources:
-    SQSQueue:
-      Type: AWS::SQS::Queue
-      Properties:
-        QueueName: parsed-products-queue
-  Outputs:
-    
-
-
+    SQS_URL: ${cf:product-service-${self:provider.stage}.SQSQueueUrl}
 
 functions:
   importProductsFile:
@@ -47,7 +34,7 @@ functions:
           cors: true
           request:
             parameters:
-              queryStrings:
+              querystrings:
                 name: true
   parseProductsFile:
     handler: handler.parseProductsFile

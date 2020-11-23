@@ -19,8 +19,7 @@ module.exports = event => {
           QueueUrl: process.env.SQS_URL,
           MessageBody: JSON.stringify(product),
         }, (err, data) => {
-          if (err) console.log(err)
-          else console.log(JSON.stringify(product))
+          if (err) console.log(err);
         });
       })
       .on('error', (error) => {
