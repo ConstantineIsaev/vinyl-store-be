@@ -88,6 +88,6 @@ functions:
     handler: handler.catalogBatchProcess
     events:
       - sqs:
-          batchSize: 1
+          batchSize: 3
           arn:
             Fn::GetAtt: [ SQSQueue, Arn ]
