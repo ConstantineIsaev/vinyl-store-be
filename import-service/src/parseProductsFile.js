@@ -4,6 +4,7 @@ const { BUCKET, REGION } = require('./values');
 
 module.exports = event => {
   const s3 = new AWS.S3({ region: REGION });
+  const sqs = new AWS.SQS();
 
   event.Records.forEach(record => {
     const key = record.s3.object.key
@@ -13,8 +14,13 @@ module.exports = event => {
     }).createReadStream();
 
     s3Stream.pipe(csv())
-      .on('data', data => {
-        console.log(data)
+      .on('data', product => {
+        sqs.sendMessage({
+          QueueUrl: process.env.SQS_URL,
+          MessageBody: JSON.stringify(product),
+        }, (err, data) => {
+          if (err) console.log(err);
+        });
       })
       .on('error', (error) => {
         console.error(error);

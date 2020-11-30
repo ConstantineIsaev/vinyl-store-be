@@ -2,6 +2,7 @@ const { Client } = require('pg');
 const dbOptions = require('./dbOptions');
 
 module.exports = async (title, artist, description, price, coverurl, count) => {
+
   const client = new Client(dbOptions);
   await client.connect();
   try {

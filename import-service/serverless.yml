@@ -17,7 +17,12 @@ provider:
       Action: "s3:*"
       Resource: 
         - "arn:aws:s3:::lesson5-bucket/*"
+    - Effect: "Allow"
+      Action: "sqs:*"
+      Resource: ${cf:product-service-${self:provider.stage}.SQSQueueArn}
 
+  environment:
+    SQS_URL: ${cf:product-service-${self:provider.stage}.SQSQueueUrl}
 
 functions:
   importProductsFile:
@@ -29,9 +34,8 @@ functions:
           cors: true
           request:
             parameters:
-              queryStrings:
+              querystrings:
                 name: true
-
   parseProductsFile:
     handler: handler.parseProductsFile
     events:

@@ -10,6 +10,48 @@ provider:
   stage: dev
   region: us-east-1
 
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action: "sqs:*"
+      Resource: 
+        - Fn::GetAtt: [ SQSQueue, Arn ]
+    - Effect: "Allow"
+      Action: "sns:*"
+      Resource: 
+        Ref: SNSTopic
+    
+  environment:
+    AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1'
+    SQS_URL:
+      Ref: SQSQueue
+    SNS_TOPIC:
+      Ref: SNSTopic
+
+resources:
+  Resources:
+    SQSQueue:
+      Type: AWS::SQS::Queue
+      Properties:
+        QueueName: catalog-products-queue
+    SNSTopic:
+      Type: AWS::SNS::Topic
+      Properties:
+        TopicName: catalog-products-sns-topic
+    SNSSubscription:
+      Type: AWS::SNS::Subscription
+      Properties:
+        Endpoint: matthew.risedale@gmail.com
+        Protocol: email
+        TopicArn:
+          Ref: SNSTopic
+  Outputs:
+    SQSQueueUrl:
+      Value:
+        Ref: SQSQueue
+    SQSQueueArn:
+      Value:
+        Fn::GetAtt: [ SQSQueue, Arn ]
+
 functions:
   initDb:
     handler: handler.initDb
@@ -20,6 +62,7 @@ functions:
       - http:
           path: products
           method: get
+          cors: true
 
   getProductById:
     handler: handler.getProductById
@@ -27,6 +70,7 @@ functions:
       - http:
           path: products/{productId}
           method: get
+          cors: true
           request:
             parameters:
               paths:
@@ -40,3 +84,10 @@ functions:
           method: post 
           cors: true
 
+  catalogBatchProcess:
+    handler: handler.catalogBatchProcess
+    events:
+      - sqs:
+          batchSize: 3
+          arn:
+            Fn::GetAtt: [ SQSQueue, Arn ]
