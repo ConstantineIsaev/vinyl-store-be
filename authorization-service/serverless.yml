@@ -14,4 +14,3 @@ provider:
 functions:
   basicAuthorizer:
     handler: handler.basicAuthorizer
-
