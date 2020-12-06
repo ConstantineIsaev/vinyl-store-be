@@ -24,6 +24,27 @@ provider:
   environment:
     SQS_URL: ${cf:product-service-${self:provider.stage}.SQSQueueUrl}
 
+resources:
+  Resources:
+    GatewayResponseDenied:
+      Type: AWS::ApiGateway::GatewayResponse
+      Properties:
+        ResponseParameters:
+          gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
+          gatewayresponse.header.Access-Control-Allow-Headers: "'*'"
+          gatewayresponse.header.Access-Control-Allow-Credentials: "'true'"
+        ResponseType: ACCESS_DENIED
+        RestApiId: !Ref ApiGatewayRestApi
+    GatewayResponseUnauthorized:
+      Type: AWS::ApiGateway::GatewayResponse
+      Properties:
+        ResponseParameters:
+          gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
+          gatewayresponse.header.Access-Control-Allow-Headers: "'*'"
+          gatewayresponse.header.Access-Control-Allow-Credentials: "'true'"
+        ResponseType: UNAUTHORIZED
+        RestApiId: !Ref ApiGatewayRestApi
+
 functions:
   importProductsFile:
     handler: handler.importProductsFile
@@ -32,6 +53,12 @@ functions:
           path: import
           method: get
           cors: true
+          authorizer:
+            name: tokenAuthorizer
+            arn: "arn:aws:lambda:us-east-1:241876787615:function:authorization-service-dev-basicAuthorizer"
+            resultTtlInSeconds: 0
+            identitySource: method.request.header.Authorization
+            type: token
           request:
             parameters:
               querystrings:
